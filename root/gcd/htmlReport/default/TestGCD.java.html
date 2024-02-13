@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestGCD.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Unnamed Coverage Results</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">TestGCD.java</span></div><h1>TestGCD.java</h1><pre class="source lang-java linenums">import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import root.gcd.GCD;
+
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+<span class="fc" id="L11">public class TestGCD {</span>
+    GCD gcd;
+    @BeforeEach
+    void init(){
+<span class="fc" id="L15">        gcd = new GCD();</span>
+<span class="fc" id="L16">    }</span>
+
+    @AfterAll
+    static void Success(){
+<span class="fc" id="L20">        System.out.println(&quot;All tests has been passed successfully!&quot;);</span>
+<span class="fc" id="L21">    }</span>
+
+    @DisplayName(&quot;Positive integers&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;1, 1, 1&quot;,
+            &quot;1, 2, 1&quot;,
+            &quot;2, 1, 1&quot;,
+            &quot;2, 2, 2&quot;,
+
+            &quot;1, 1123414244, 1&quot;,
+            &quot;2, 1123414244, 2&quot;,
+
+            &quot;1, 2147483646, 1&quot;,
+            &quot;1, 2147483647, 1&quot;,
+            &quot;2, 2147483646, 2&quot;,
+            &quot;2, 2147483647, 1&quot;,
+
+            &quot;1123414244, 1, 1&quot;,
+            &quot;1123414244, 2, 2&quot;,
+
+            &quot;1123414244, 1123414244, 1123414244&quot;,
+
+            &quot;1123414244, 2147483646, 2&quot;,
+            &quot;1123414244, 2147483647, 1&quot;,
+
+            &quot;2147483646, 1, 1&quot;,
+            &quot;2147483646, 2, 2&quot;,
+            &quot;2147483647, 1, 1&quot;,
+            &quot;2147483647, 2, 1&quot;,
+
+            &quot;2147483646, 1123414244, 2&quot;,
+            &quot;2147483647, 1123414244, 1&quot;,
+
+            &quot;2147483646, 2147483646, 2147483646&quot;,
+            &quot;2147483646, 2147483647, 1&quot;,
+            &quot;2147483647, 2147483646, 1&quot;,
+            &quot;2147483647, 2147483647, 2147483647&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void PositiveIntegers(int x, int y, int result){
+<span class="fc" id="L62">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L63">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L64">    }</span>
+
+    @DisplayName(&quot;First integer is negative&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-2147483648, 1, 1&quot;,
+            &quot;-2147483648, 2, 2&quot;,
+            &quot;-2147483647, 1, 1&quot;,
+            &quot;-2147483647, 2, 1&quot;,
+
+            &quot;-2147483648, 1123414244, 4&quot;,
+            &quot;-2147483647, 1123414244, 1&quot;,
+
+            &quot;-2147483648, 2147483646, 2&quot;,
+            &quot;-2147483648, 2147483647, 1&quot;,
+            &quot;-2147483647, 2147483646, 1&quot;,
+            &quot;-2147483647, 2147483647, 2147483647&quot;,
+
+            &quot;-715827882, 1, 1&quot;,
+            &quot;-715827882, 2, 2&quot;,
+
+            &quot;-715827882, 1123414244, 2&quot;,
+
+            &quot;-715827882, 2147483646, 715827882&quot;,
+            &quot;-715827882, 2147483647, 1&quot;,
+
+            &quot;-2, 1, 1&quot;,
+            &quot;-2, 2, 2&quot;,
+            &quot;-1, 1, 1&quot;,
+            &quot;-1, 2, 1&quot;,
+
+            &quot;-2, 1123414244, 2&quot;,
+            &quot;-1, 1123414244, 1&quot;,
+
+            &quot;-2, 2147483646, 2&quot;,
+            &quot;-2, 2147483647, 1&quot;,
+            &quot;-1, 2147483646, 1&quot;,
+            &quot;-1, 2147483647, 1&quot;
+    })
+    @Timeout(1)
+    void FirstNegative(int x, int y, int result){
+<span class="fc" id="L105">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L106">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L107">    }</span>
+
+    @DisplayName(&quot;Second integer is negative&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;1, -2147483648, 1&quot;,
+            &quot;2, -2147483648, 2&quot;,
+            &quot;1, -2147483647, 1&quot;,
+            &quot;2, -2147483647, 1&quot;,
+
+            &quot;1123414244, -2147483648, 4&quot;,
+            &quot;1123414244, -2147483647, 1&quot;,
+
+            &quot;2147483646, -2147483648, 2&quot;,
+            &quot;2147483647, -2147483648, 1&quot;,
+            &quot;2147483646, -2147483647, 1&quot;,
+            &quot;2147483647, -2147483647, 2147483647&quot;,
+
+            &quot;1, -715827882, 1&quot;,
+            &quot;2, -715827882, 2&quot;,
+
+            &quot;1123414244, -715827882, 2&quot;,
+
+            &quot;2147483646, -715827882, 715827882&quot;,
+            &quot;2147483647, -715827882, 1&quot;,
+
+            &quot;1, -2, 1&quot;,
+            &quot;2, -2, 2&quot;,
+            &quot;1, -1, 1&quot;,
+            &quot;2, -1, 1&quot;,
+
+            &quot;1123414244, -2, 2&quot;,
+            &quot;1123414244, -1, 1&quot;,
+
+            &quot;2147483646, -2, 2&quot;,
+            &quot;2147483647, -2, 1&quot;,
+            &quot;2147483646, -1, 1&quot;,
+            &quot;2147483647, -1, 1&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void SecondNegative(int x, int y, int result){
+<span class="fc" id="L148">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L149">        assertEquals( r, result);</span>
+<span class="fc" id="L150">    }</span>
+
+    @DisplayName(&quot;Negative integers&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-2147483648, -2147483648, -2147483648&quot;,
+            &quot;-2147483647, -2147483648, 1&quot;,
+            &quot;-2147483648, -2147483647, 1&quot;,
+            &quot;-2147483647, -2147483647, 2147483647&quot;,
+
+            &quot;-715827882, -2147483648, 2&quot;,
+            &quot;-715827882, -2147483647, 1&quot;,
+
+            &quot;-2, -2147483648, 2&quot;,
+            &quot;-1, -2147483648, 1&quot;,
+            &quot;-2, -2147483647, 1&quot;,
+            &quot;-1, -2147483647, 1&quot;,
+
+            &quot;-2147483648, -715827882, 2&quot;,
+            &quot;-2147483647, -715827882, 1&quot;,
+
+            &quot;-715827882, -715827882, 715827882&quot;,
+
+            &quot;-2, -715827882, 2&quot;,
+            &quot;-1, -715827882, 1&quot;,
+
+            &quot;-2147483648, -2, 2&quot;,
+            &quot;-2147483647, -2, 1&quot;,
+            &quot;-2147483648, -1, 1&quot;,
+            &quot;-2147483647, -1, 1&quot;,
+
+            &quot;-715827882, -2, 2&quot;,
+            &quot;-715827882, -1, 1&quot;,
+
+            &quot;-2, -2, 2&quot;,
+            &quot;-1, -2, 1&quot;,
+            &quot;-2, -1, 1&quot;,
+            &quot;-1, -1, 1&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void NegativeIntegers(int x, int y, int result){
+<span class="fc" id="L191">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L192">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L193">    }</span>
+
+    @DisplayName(&quot;First integer is zero&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;0, -2147483648, -2147483648&quot;,
+            &quot;0, -2147483647, 2147483647&quot;,
+
+            &quot;0, -715827882, 715827882&quot;,
+
+            &quot;0, -2, 2&quot;,
+            &quot;0, -1, 1&quot;,
+
+            &quot;0, 2147483647, 2147483647&quot;,
+            &quot;0, 2147483646, 2147483646&quot;,
+
+            &quot;0, 715827882, 715827882&quot;,
+
+            &quot;0, 2, 2&quot;,
+            &quot;0, 1, 1&quot;,
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void FirstZero(int x, int y, int result){
+<span class="fc" id="L216">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L217">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L218">    }</span>
+
+    @DisplayName(&quot;Second integer is zero&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-2147483648, 0, -2147483648&quot;,
+            &quot;-2147483647, 0, 2147483647&quot;,
+
+            &quot;-715827882, 0, 715827882&quot;,
+
+            &quot;-2, 0, 2&quot;,
+            &quot;-1, 0, 1&quot;,
+
+            &quot;2147483647, 0, 2147483647&quot;,
+            &quot;2147483646, 0, 2147483646&quot;,
+
+            &quot;715827882, 0, 715827882&quot;,
+
+            &quot;2, 0, 2&quot;,
+            &quot;1, 0, 1&quot;,
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void SecondZero(int x, int y, int result){
+<span class="fc" id="L241">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L242">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L243">    }</span>
+
+    @Test
+    @DisplayName(&quot;Zero integers&quot;)
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void ZeroIntegers(){
+<span class="fc" id="L249">        int r = gcd.gcd(0, 0);</span>
+<span class="fc" id="L250">        int result = 0;</span>
+<span class="fc" id="L251">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L252">    }</span>
+
+    @DisplayName(&quot;Coprime integers&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;15233, 86431&quot;,
+            &quot;49391, 66529&quot;,
+            &quot;84729, 319043&quot;,
+            &quot;488669, 704161&quot;,
+            &quot;745987, 805813&quot;,
+            &quot;941891, 970219&quot;,
+            &quot;1036337, 1047297&quot;,
+            &quot;1118267, 2205287&quot;,
+            &quot;2278219, 3433947&quot;,
+            &quot;3449893, 3787489&quot;,
+            &quot;3884231, 4156903&quot;,
+            &quot;4229137, 4678941&quot;,
+            &quot;4832953, 5124619&quot;,
+            &quot;5271971, 5482661&quot;,
+            &quot;5594753, 5776311&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void CoprimeIntegers(int x, int y){
+<span class="fc" id="L275">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L276">        int result = 1;</span>
+<span class="fc" id="L277">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L278">    }</span>
+
+    @DisplayName(&quot;Equal integers&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-1989896543, -1989896543&quot;,
+            &quot;-1893432412, -1893432412&quot;,
+            &quot;-1567896543, -1567896543&quot;,
+            &quot;-1348836548, -1348836548&quot;,
+            &quot;-1194532418, -1194532418&quot;,
+            &quot;-876214582, -876214582&quot;,
+            &quot;-500654323, -500654323&quot;,
+            &quot;0, 0&quot;,
+            &quot;500654323, 500654323&quot;,
+            &quot;876214582, 876214582&quot;,
+            &quot;1194532418, 1194532418&quot;,
+            &quot;1348836548, 1348836548&quot;,
+            &quot;1567896543, 1567896543&quot;,
+            &quot;1893432412, 1893432412&quot;,
+            &quot;1989896543, 1989896543&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void EqualIntegers(int x, int y){
+<span class="fc" id="L301">        int r = gcd.gcd(x, y);</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        if (x &gt;= 0) {</span>
+<span class="fc" id="L303">            assertEquals(x, r, &quot;Failed&quot;);</span>
+        } else {
+<span class="fc" id="L305">            assertEquals(-x, r, &quot;Failed&quot;);</span>
+        }
+<span class="fc" id="L307">    }</span>
+
+    @DisplayName(&quot;First divides the second&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-1000000000, -2000000000&quot;,
+            &quot;-300000000, -1500000000&quot;,
+            &quot;-1000000000, -2000000000&quot;,
+            &quot;-500000000, -1000000000&quot;,
+            &quot;-200000000, -400000000&quot;,
+            &quot;200000000, 400000000&quot;,
+            &quot;500000000, 1000000000&quot;,
+            &quot;600000000, 1200000000&quot;,
+            &quot;700000000, 1400000000&quot;,
+            &quot;800000000, 1600000000&quot;,
+            &quot;900000000, 1800000000&quot;,
+            &quot;1000000000, 2000000000&quot;,
+            &quot;125000000, 500000000&quot;,
+            &quot;250000000, 750000000&quot;,
+            &quot;333333333, 999999999&quot;
+})
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void FirstDividesSecond(int x, int y){
+<span class="fc" id="L330">        int r = gcd.gcd(x, y);</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">        if (x &gt;= 0) {</span>
+<span class="fc" id="L332">            assertEquals(x, r, &quot;Failed&quot;);</span>
+        } else {
+<span class="fc" id="L334">            assertEquals(-x, r, &quot;Failed&quot;);</span>
+        }
+<span class="fc" id="L336">    }</span>
+
+    @DisplayName(&quot;Second divides the first&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-2000000000, -1000000000&quot;,
+            &quot;-1500000000, -300000000&quot;,
+            &quot;-2000000000, -1000000000&quot;,
+            &quot;-1000000000, -500000000&quot;,
+            &quot;-400000000, -200000000&quot;,
+            &quot;400000000, 200000000&quot;,
+            &quot;1000000000, 500000000&quot;,
+            &quot;1200000000, 600000000&quot;,
+            &quot;1400000000, 700000000&quot;,
+            &quot;1600000000, 800000000&quot;,
+            &quot;1800000000, 900000000&quot;,
+            &quot;2000000000, 1000000000&quot;,
+            &quot;500000000, 125000000&quot;,
+            &quot;750000000, 250000000&quot;,
+            &quot;999999999, 333333333&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void SecondDividesFirst(int x, int y){
+<span class="fc" id="L359">        int r = gcd.gcd(x, y);</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">        if (y &gt;= 0) {</span>
+<span class="fc" id="L361">            assertEquals(y, r, &quot;Failed&quot;);</span>
+        } else {
+<span class="fc" id="L363">            assertEquals(-y, r, &quot;Failed&quot;);</span>
+        }
+<span class="fc" id="L365">    }</span>
+
+    @DisplayName(&quot;Result is not one&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;12000, 18000, 6000&quot;,
+            &quot;250000, 500000, 250000&quot;,
+            &quot;120000000, 130000000, 10000000&quot;,
+            &quot;-987654321, -1975308642, 987654321&quot;,
+            &quot;-157895000, -315790000, 157895000&quot;,
+            &quot;-876543210, -1753086420, 876543210&quot;,
+            &quot;666666660, 1333333320, 666666660&quot;,
+            &quot;500005000, 1500000000, 5000&quot;,
+            &quot;-1799999998, -899999999, 899999999&quot;,
+            &quot;131313131, 393939393, 131313131&quot;,
+            &quot;555555555, 666666666, 111111111&quot;,
+            &quot;999999992, 1999999992, 8&quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void ResultIsNotOne(int x, int y, int result){
+<span class="fc" id="L385">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L386">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L387">    }</span>
+
+    @DisplayName(&quot;Border values&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;-2147483648, -2147483648, -2147483648&quot;,
+            &quot;-2147483648, 2147483647, 1&quot;,
+            &quot;2147483647, -2147483648, 1 &quot;,
+            &quot;2147483647, 2147483647, 2147483647&quot;,
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void BorderValues(int x, int y, int result){
+<span class="fc" id="L399">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L400">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L401">    }</span>
+
+    @DisplayName(&quot;Fibonacci integers&quot;)
+    @ParameterizedTest(name = &quot;#{index}: x = ''{0}'', y = ''{1}''&quot;)
+    @CsvSource({
+            &quot;1836311903, 1134903170, 1&quot;,
+            &quot;1134903170, 701408733, 1&quot;,
+            &quot;701408733, 433494437, 1&quot;,
+            &quot;433494437, 267914296, 1 &quot;
+    })
+    @Timeout(value = 200, unit = TimeUnit.MILLISECONDS)
+    void FibonacciIntegers(int x, int y, int result){
+<span class="fc" id="L413">        int r = gcd.gcd(x, y);</span>
+<span class="fc" id="L414">        assertEquals(result, r, &quot;Failed&quot;);</span>
+<span class="fc" id="L415">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
